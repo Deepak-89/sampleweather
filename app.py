@@ -12,46 +12,22 @@ app = Flask(__name__)
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    print("Request:")
     req = request.get_json(silent=True, force=True)
 
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    res = makeWebhookResult(req)
+    res = processRequest(req)
 
     res = json.dumps(res, indent=4)
-    print(res)
+    # print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
 
-
-def makeWebhookResult(req):
-    if req.get("result").get("action") != "yahooweather":
-        return {}
-    result = req.get("result")
-    parameters = result.get("parameters")
-    zone = parameters.get("shipping-zone")
-
-    cost = {'Europe':1000, 'North America':200, 'South America':300, 'Asia':400, 'Africa':500}
-
-    speech = "The cost of shipping to " + zone + " is " + str(cost[zone]) + " euros."
-
-    print("Response:")
-    print(speech)
-
-    return {
-        "speech": speech,
-        "displayText": speech,
-        #"data": {},
-        # "contextOut": [],
-        "source": "sampleshipping"
-    }
-
 def processRequest(req):
-    if req.get("result").get("action") != "shipping.cost":
+    if req.get("result").get("action") != "yahooweather":
         return {}
 ##    baseurl = "https://query.yahooapis.com/v1/public/yql?"
 ##    yql_query = makeYqlQuery(req)
@@ -60,8 +36,7 @@ def processRequest(req):
 ##    yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
 ##    result = urllib.urlopen(yql_url).read()
 ##    data = json.loads(result)
-    print "heloo"
-    data = json.loads({ 
+    temp = json.loads({ 
     "channel":{  
       "item":{  
          "condition":{  
@@ -73,9 +48,8 @@ def processRequest(req):
       }
     }
     })
-##    data = d['channel']['item']['condition']['temp']
-    print "heloooo after json"
-    print data
+    data = d['channel']['item']['condition']['temp']
+
     res = makeWebhookResult(data)
     return res
 
