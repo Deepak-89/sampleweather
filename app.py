@@ -20,7 +20,7 @@ def webhook():
     res = processRequest(req)
 
     res = json.dumps(res, indent=4)
-    # print(res)
+    print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
@@ -36,7 +36,8 @@ def processRequest(req):
 ##    yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
 ##    result = urllib.urlopen(yql_url).read()
 ##    data = json.loads(result)
-    temp = json.loads({ 
+    print "heloo"
+    data = json.loads({ 
     "channel":{  
       "item":{  
          "condition":{  
@@ -48,8 +49,9 @@ def processRequest(req):
       }
     }
     })
-    data = d['channel']['item']['condition']['temp']
-
+##    data = d['channel']['item']['condition']['temp']
+    print "heloooo after json"
+    print data
     res = makeWebhookResult(data)
     return res
 
