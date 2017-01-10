@@ -37,7 +37,7 @@ def processRequest(req):
 ##    result = urllib.urlopen(yql_url).read()
 ##    data = json.loads(result)
     print "heloo"
-    data = json.loads({ 
+    temp = json.loads({ 
     "channel":{  
       "item":{  
          "condition":{  
@@ -49,7 +49,7 @@ def processRequest(req):
       }
     }
     })
-##    data = d['channel']['item']['condition']['temp']
+    data = d['channel']['item']['condition']['temp']
     print(data)
     res = makeWebhookResult(data)
     return res
